@@ -7,7 +7,14 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><strong><h4>Delegados</h4></strong></div>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col"><strong><h4>Delegados</h4></strong></div>
+                        <div class="col">
+                            <div class="float-right"><a href="{{route('crear.delegado')}}" type="button" class="btn btn-success">Nuevo Delegado</a></div>
+                        </div>
+                    </div>                
+                </div>
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <h4 class="alert-heading">¡Parece que hay un erro!</h4><hr>
@@ -62,8 +69,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-muted">
-                    Crear nuevo Delegado <a href="{{route('crear.delegado')}}" type="button" class="btn btn-success">Añadir</a> │
-                    Exportar a excel <a href="{{url('exportar/excel')}}" type="button" class="btn btn-success">Exportar</a>
+                    <center> &copy SNTE Sección 56 - 2020 </center>
                 </div>
             </div>
         </div>
