@@ -115,7 +115,7 @@ class DelegadoController extends Controller
         $this->validate($request, $reglas, $mensaje);       
         
         $delegado->save();
-        return redirect('/delegados')->with('success','Archivo creado');
+        return redirect('admin/delegados')->with('success','Archivo creado');
     }
 
     /**
@@ -231,7 +231,7 @@ class DelegadoController extends Controller
 
         $delegado->save();
         
-        return redirect('/delegados')->with('success','Actualización realizada satisfactoriamente');
+        return redirect('/admin/delegados')->with('success','Actualización realizada satisfactoriamente');
 
     }
 
@@ -245,7 +245,7 @@ class DelegadoController extends Controller
     {
         $delegado = Delegado::where('slug','=', $slug)->firstOrFail();        
         $delegado->delete();
-        return redirect('/delegados')->with('success','La información ha sido borrada');
+        return redirect('/admin/delegados')->with('success','La información ha sido borrada');
     }
 
     public function delegaciones($id)
@@ -264,8 +264,8 @@ class DelegadoController extends Controller
         $niveles = Nivel::all();
         $delegados = Delegado::all();
 
-        // return view('admin.delegados.excel',compact('delegados','regiones','delegaciones','generos','situaciones','estudios','nomenclaturas','niveles'));
+        return view('admin.delegados.excel',compact('delegados','regiones','delegaciones','generos','situaciones','estudios','nomenclaturas','niveles'));
 
-        return Excel::store(new DelegadosExport, 'delegados.csv');
+        // return Excel::store(new DelegadosExport, 'delegados.csv');
     }
 }
