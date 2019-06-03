@@ -26,7 +26,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/admin/regiones') }}">
                     {{ __('Regiones') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -36,10 +36,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="navbar-brand" href="{{ url('/niveles') }}">{{ __('Niveles') }}</a></li>
-                        <li class="nav-item"><a class="navbar-brand" href="{{ url('/nomenclaturas') }}">{{ __('Nomenclaturas') }}</a></li>
-                        <li class="nav-item"><a class="navbar-brand" href="{{ url('/delegaciones') }}">{{ __('Delegaciones') }}</a></li>
-                        <li class="nav-item"><a class="navbar-brand" href="{{ url('/delegados') }}">{{ __('Delegados') }}</a></li>
+                        <li class="nav-item"><a class="navbar-brand" href="{{ url('/admin/niveles') }}">{{ __('Niveles') }}</a></li>
+                        <li class="nav-item"><a class="navbar-brand" href="{{ url('/admin/nomenclaturas') }}">{{ __('Nomenclaturas') }}</a></li>
+                        <li class="nav-item"><a class="navbar-brand" href="{{ url('/admin/delegaciones') }}">{{ __('Delegaciones') }}</a></li>
+                        <li class="nav-item"><a class="navbar-brand" href="{{ url('/admin/delegados') }}">{{ __('Delegados') }}</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

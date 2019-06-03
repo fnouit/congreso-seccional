@@ -26,7 +26,7 @@
                             @foreach ($regiones as $key => $region)
                             <tr>
                                 <th scope="row">{{$key+1}}</th>
-                                <td> <a href="{{route('mostrar.regiones',[$region->slug])}}"> {{$region->nombre}} </a> </td>
+                                <td> <a href="{{route('mostrar.region',[$region->slug])}}"> {{$region->nombre}} </a> </td>
                                 <td>{{$region->sede}}</td>
                                 <td>{{$region->coordinador}}</td>
                                 <td>{{$region->email}}</td>

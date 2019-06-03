@@ -158,7 +158,7 @@
         $("#region").change(function(){
             var region_id = $(this).val();
             
-            $.get('/regiones/'+region_id+'/delegaciones',function(data){
+            $.get('/admin/regiones/'+region_id+'/delegaciones',function(data){
                 $('#delegaciones').empty();
                 $('#delegaciones').append('<option disabled selected>SELECCIONA DELEGACIÓN</option>');           
                 for (var i = 0; i < data.length; ++i)

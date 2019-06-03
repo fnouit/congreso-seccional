@@ -94,7 +94,7 @@ class RegionController extends Controller
         // return $request;
         $region->save();
 
-        return redirect()->route('mostrar.regiones',[$region->slug]);
+        return redirect()->route('mostrar.region',[$region->slug]);
     }
 
     /**
