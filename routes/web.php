@@ -11,6 +11,8 @@
 |
 */
 
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +20,8 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
+    
+
 
     /**
      * Regiones
@@ -78,12 +82,10 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
 
 
 Route::middleware(['auth'])->prefix('usuario')->group(function () {
+    Route::get('/index', 'UsuarioController@index')->name('mostrar.delegados');
     Route::get('/crear/delegado/', 'UsuarioController@create')->name('new.delegado');
     Route::post('/almacena/delegado/', 'UsuarioController@store')->name('store.delegado');
     Route::get('/regiones/{id}/delegaciones','UsuarioController@delegaciones');
 });
 
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

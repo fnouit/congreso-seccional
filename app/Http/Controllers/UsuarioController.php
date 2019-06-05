@@ -14,6 +14,25 @@ use App\Nivel;
 
 class UsuarioController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $delegados = Delegado::all();
+        $regiones = Region::all();
+        $delegaciones = Delegacion::all();     
+        $generos = Genero::all();   
+        $situaciones = Situacion::all();
+        $estudios = Estudio::all();
+        $nomenclaturas = Nomenclatura::all();
+        $niveles = Nivel::all();
+
+        return view ('usuario.index',compact('delegados','delegaciones','regiones','nomenclaturas'));
+    }
+
     public function create()
     {
         $regiones = Region::all();
@@ -81,7 +100,7 @@ class UsuarioController extends Controller
         $this->validate($request, $reglas, $mensaje);       
         
         $delegado->save();
-        return redirect('/home')->with('success','Archivo creado');
+        return url('usuario/index');
     }
 
     public function delegaciones($id)
