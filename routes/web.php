@@ -12,16 +12,18 @@
 */
 
 Auth::routes();
+
+// Route::get('/', function () {
+//     return view('login');
+// });
+
+Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
-    
-
 
     /**
      * Regiones

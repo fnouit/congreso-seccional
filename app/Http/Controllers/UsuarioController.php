@@ -100,7 +100,9 @@ class UsuarioController extends Controller
         $this->validate($request, $reglas, $mensaje);       
         
         $delegado->save();
-        return url('usuario/index');
+        // return url('usuario/index');
+        // return view('home');
+        return redirect()->action('HomeController@index');
     }
 
     public function delegaciones($id)
