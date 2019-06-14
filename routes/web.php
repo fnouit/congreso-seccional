@@ -24,6 +24,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
+    
+    /**
+     * Niveles Educativos
+     */
+    Route::get(     '/usuarios',                 'UserController@index')    ->name('ver.usuarios');
+    Route::get(     '/crear/user/',              'UserController@create')   ->name('crear.user');
+    Route::post(    '/almacena/user/{slug?}',    'UserController@store')    ->name('almacena.user');
+    Route::get(     '/mostrar/user/{slug?}',     'UserController@show')     ->name('mostrar.user');
+    Route::get(     '/editar/user/{slug?}',      'UserController@edit')     ->name('editar.user');
+    Route::put(     '/actualizar/user/{slug?}',  'UserController@update')   ->name('actualizar.user');
+    Route::delete(  '/eliminar/user/{slug?}',    'UserController@destroy')  ->name('eliminar.user');
 
     /**
      * Regiones

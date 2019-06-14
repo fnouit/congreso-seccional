@@ -48,6 +48,7 @@
                     @if(Auth::user()->admin)
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
+                            <li class="nav-item"><a class="navbar-brand" href="#">{{ __('Usuarios') }}</a></li>
                             <li class="nav-item"><a class="navbar-brand" href="{{ url('/admin/regiones') }}">{{ __('Regiones') }}</a></li>
                             <li class="nav-item"><a class="navbar-brand" href="{{ url('/admin/niveles') }}">{{ __('Niveles') }}</a></li>
                             <li class="nav-item"><a class="navbar-brand" href="{{ url('/admin/nomenclaturas') }}">{{ __('Nomenclaturas') }}</a></li>
