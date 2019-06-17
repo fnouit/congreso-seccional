@@ -24,6 +24,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
+
+    Route::get('/', function (){ return view ('admin.index'); });
     
     /**
      * Niveles Educativos

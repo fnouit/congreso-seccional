@@ -10,8 +10,8 @@
             <!-- Ejemplo de tabla Listado -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Categorías
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalNuevo">
+                    <i class="fa fa-align-justify"></i> Regiones
+                    <button type="button" @click="abrirModal('region','registrar')" class="btn btn-secondary">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
@@ -33,84 +33,28 @@
                             <tr>
                                 <th>Opciones</th>
                                 <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Estado</th>
+                                <th>Sede</th>
+                                <th>Coordinador</th>
+                                <th>Correo electrónico</th>
+                                <th>Imágen</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr v-for="(region) in arrayRegion" :key="region.id" >
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalNuevo">
+                                    <button type="button" @click="abrirModal('region', 'actualizar', region)" class="btn btn-warning btn-sm" >
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminar">
+                                    <button type="button" class="btn btn-danger btn-sm" >
                                         <i class="icon-trash"></i>
                                     </button>
                                 </td>
-                                <td>Equipos</td>
-                                <td>Dispositivos electrónicos</td>
-                                <td>
-                                    <span class="badge badge-success">Activo</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalNuevo">
-                                        <i class="icon-pencil"></i>
-                                    </button> &nbsp;
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminar">
-                                        <i class="icon-trash"></i>
-                                    </button>
-                                </td>
-                                <td>Equipos</td>
-                                <td>Dispositivos electrónicos</td>
-                                <td>
-                                    <span class="badge badge-success">Activo</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalNuevo">
-                                        <i class="icon-pencil"></i>
-                                    </button> &nbsp;
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminar">
-                                        <i class="icon-trash"></i>
-                                    </button>
-                                </td>
-                                <td>Equipos</td>
-                                <td>Dispositivos electrónicos</td>
-                                <td>
-                                    <span class="badge badge-secondary">Inactivo</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalNuevo">
-                                        <i class="icon-pencil"></i>
-                                    </button> &nbsp;
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminar">
-                                        <i class="icon-trash"></i>
-                                    </button>
-                                </td>
-                                <td>Equipos</td>
-                                <td>Dispositivos electrónicos</td>
-                                <td>
-                                    <span class="badge badge-secondary">Inactivo</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalNuevo">
-                                        <i class="icon-pencil"></i>
-                                    </button>&nbsp;
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminar">
-                                        <i class="icon-trash"></i>
-                                    </button>
-                                </td>
-                                <td>Equipos</td>
-                                <td>Dispositivos electrónicos</td>
-                                <td>
-                                    <span class="badge badge-success">Activo</span>
+                                <td v-text="region.nombre"></td>
+                                <td v-text="region.sede"></td>
+                                <td v-text="region.coordinador"></td>
+                                <td v-text="region.email"></td>
+                                <td v-text="region.photo_extension">
+                                    <img :src="'/storage/'+region.photo_extension" class="img-responsive" height="70" width="90">
                                 </td>
                             </tr>
                         </tbody>
@@ -142,11 +86,11 @@
             <!-- Fin ejemplo de tabla Listado -->
         </div>
         <!--Inicio del modal agregar/actualizar-->
-        <div class="modal fade" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal fade" tabindex="-1" role="dialog" :class="{'mostrar' : modal}" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Agregar categoría</h4>
+                        <h4 v-text="tituloModal" class="modal-title"></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -206,8 +150,78 @@
 
 <script>
     export default {
+        data () {
+            return {
+                nombre : '',
+                sede : '',
+                coordinador : '',
+                correo : '',
+                telefono : '',
+                photo : '',
+                slug : '',
+                arrayRegion : [],
+                modal : 0,
+                tituloModal : ''
+            }
+        },
+        methods : {
+            listarRegion() {
+                let me=this;
+                axios.get('/admin/regiones').then(function (response) {
+                        me.arrayRegion = response.data;
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                    .finally(function () {
+                        // always executed
+                    });
+
+            },
+            registrarRegion() {
+
+            },
+            abrirModal(modelo, accion, data = []) {
+                switch (modelo) {
+                    case "region": {
+                        switch (accion) {
+                            case "registrar": {
+                                this.tituloModal = 'Nueva Región';
+                                this.modal = 1;
+                                this.nombre = '';
+                                this.sede = '';
+                                this.coordinador = '';
+                                this.correo = '';
+                                this.telefono = '';
+                                this.photo = '';
+                                this.slug = '';
+                                break;                               
+                            }
+
+                            case "actualizar": {
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+            // console.log('Component mounted.')
+            this.listarRegion();
         }
     }
 </script>
+<style>
+    .modal-content {
+        width: 100% !important;
+        position:absolute !important;
+    }
+    .mostrar {
+        display: list-item !important;
+        opacity: 1 !important;
+        position: absolute !important;
+        background-color: #3c29297a !important;
+    }
+</style>
