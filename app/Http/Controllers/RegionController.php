@@ -6,6 +6,7 @@ use App\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+
 class RegionController extends Controller
 {
     /**
@@ -13,11 +14,59 @@ class RegionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $regiones = Region::all();
+        if (!$request->ajax()) return redirect('/admin');
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+        if ($buscar == '') {
+            $regiones = Region::orderBy('id','desc')->paginate(5);            
+        }
+        else{
+            $regiones = Region::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id','desc')->paginate(5);
+        }
+
+        return [
+            'pagination' => [
+                'total' => $regiones->total(),
+                'current_page' => $regiones->currentPage(),
+                'per_page' => $regiones->perPage(),	
+                'last_page' => $regiones->lastPage(),
+                'from' => $regiones->firstItem(),	
+                'to' => $regiones->lastItem()
+            ], 'regiones' => $regiones
+        ];
+
         // return view ('admin.regiones.index',compact('regiones'));
-        return $regiones;
+        // return $regiones;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/admin');
+        $region = new Region();
+        
+        $region->nombre = strtoupper($request->nombre);
+        $region->sede = strtoupper($request->sede);
+        $region->coordinador = strtoupper($request->coordinador);
+        $region->email = $request->correo;
+        $region->telefono = $request->telefono;
+        $region->photo_extension = $request->photo;
+        $region->slug = $request->slug;
+
+        
+        
+        $region->save();
+
+        // return 'exito registro guardado';
     }
 
     /**
@@ -55,47 +104,27 @@ class RegionController extends Controller
      * @param  \App\Region  $region
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(Request $request)
     {
-        $mensaje =[
-            'nombre.required' => 'Es necesario ingresar un nombre para la Región',
-            'sede.required' => 'El nombre de la sede es necesario',
-            'coordinador.required' => 'Nombre de coordinador es requerido',
-            'email.required' => 'Es necesario que ingreses un correo electrónico',
-            'email.email' => 'Debes ingresar un correo valido',
-            'email.unique' => 'El email ya ha sido registrado'
-        ];
 
-        $reglas = [
-            'nombre' => 'required',
-            'sede' => 'required',
-            'coordinador' => 'required',
-            'email' => 'email|required',
-            'telefono' => 'required',
-            'photo_extension' => 'image'
-        ];
+        if (!$request->ajax()) return redirect('/admin');
+        $region = Region::findOrFail($request->id);
 
-        $this->validate($request, $reglas, $mensaje);
-
-        $region = Region::where('slug','=', $slug)->firstOrFail();
-        
-        $region->nombre = $request->nombre;
-        $region->sede = $request->sede;
-        $region->coordinador = $request->coordinador;
-        $region->email = $request->email;
+        $region->nombre = strtoupper($request->nombre);
+        $region->sede = strtoupper($request->sede);
+        $region->coordinador = strtoupper($request->coordinador);
+        $region->email = $request->correo;
         $region->telefono = $request->telefono;
+        $region->photo_extension = $request->photo;
+        $region->slug = $request->slug;        
         
-        if($request->hasFile('photo'))
+/* 
+       if($request->hasFile('photo'))
         {
             $region->photo_extension = $request->file('photo')->store('public');
         }
-
-        
-
-        // return $request;
+ */
         $region->save();
-
-        return redirect()->route('mostrar.region',[$region->slug]);
     }
 
     /**
@@ -104,8 +133,12 @@ class RegionController extends Controller
      * @param  \App\Region  $region
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Region $region)
+    public function destroy($id)
     {
-        //
+        // $region = Region::findOrFail($request->id);
+        // $region->delete();
+        if (!$request->ajax()) return redirect('/admin');
+        Region::find($id)->delete();
     }
+  
 }

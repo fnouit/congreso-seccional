@@ -42,9 +42,9 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
      * Regiones
      */
     Route::get('/regiones', 'RegionController@index')->name('regiones');
-    Route::get('/region/{slug?}/mostrar/',   'RegionController@show')  ->name('mostrar.region');
-    Route::get('/region/{slug?}/editar/',  'RegionController@edit')  ->name('editar.regiones');
-    Route::put('/region/{slug?}/actualizar/', 'RegionController@update')->name('actualizar.regiones');
+    Route::post('/region/registrar',   'RegionController@store');
+    Route::put ('/region/actualizar/', 'RegionController@update');
+    Route::delete('/region/eliminar/{id}', 'RegionController@destroy');
 
     /**
      * Niveles Educativos
