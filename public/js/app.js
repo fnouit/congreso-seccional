@@ -1853,6 +1853,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1881,7 +1884,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       offset: 3,
       criterio: 'nombre',
-      buscar: ''
+      buscar: '',
+      desabilitar: 0
     };
   },
   computed: {
@@ -2027,6 +2031,7 @@ __webpack_require__.r(__webpack_exports__);
       this.telefono = ''; // this.photo = '';
 
       this.slug = '';
+      this.desabilitar = 0;
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -2063,6 +2068,23 @@ __webpack_require__.r(__webpack_exports__);
 
                   this.slug = data['slug'];
                   this.btnAccion = 2;
+                  break;
+                }
+
+              case "informacion":
+                {
+                  this.region_id = data['id'];
+                  this.tituloModal = 'Mostrar información de la Region';
+                  this.modal = 1;
+                  this.nombre = data['nombre'];
+                  this.sede = data['sede'];
+                  this.coordinador = data['coordinador'];
+                  this.correo = data['email'];
+                  this.telefono = data['telefono']; // this.photo = data['photo'];
+
+                  this.slug = data['slug'];
+                  this.btnAccion = 3;
+                  this.desabilitar = 1;
                   break;
                 }
             }
@@ -38165,6 +38187,24 @@ var render = function() {
                       _c(
                         "button",
                         {
+                          staticClass: "btn btn-info btn-sm",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.abrirModal(
+                                "region",
+                                "informacion",
+                                region
+                              )
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "icon-eye" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
                           staticClass: "btn btn-danger btn-sm",
                           attrs: { type: "button" },
                           on: {
@@ -38370,7 +38410,8 @@ var render = function() {
                           staticStyle: { "text-transform": "uppercase" },
                           attrs: {
                             type: "text",
-                            placeholder: "Nombre de la región"
+                            placeholder: "Nombre de la región",
+                            disabled: _vm.desabilitar == 1
                           },
                           domProps: { value: _vm.nombre },
                           on: {
@@ -38409,7 +38450,8 @@ var render = function() {
                           staticStyle: { "text-transform": "uppercase" },
                           attrs: {
                             type: "text",
-                            placeholder: "Sede de la región"
+                            placeholder: "Sede de la región",
+                            disabled: _vm.desabilitar == 1
                           },
                           domProps: { value: _vm.sede },
                           on: {
@@ -38449,7 +38491,8 @@ var render = function() {
                           attrs: {
                             type: "text",
                             placeholder:
-                              "Nombre completo del coordinador regional"
+                              "Nombre completo del coordinador regional",
+                            disabled: _vm.desabilitar == 1
                           },
                           domProps: { value: _vm.coordinador },
                           on: {
@@ -38487,7 +38530,8 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: {
                             type: "email",
-                            placeholder: "¿Cúal es su correo electrónico?"
+                            placeholder: "¿Cúal es su correo electrónico?",
+                            disabled: _vm.desabilitar == 1
                           },
                           domProps: { value: _vm.correo },
                           on: {
@@ -38525,7 +38569,8 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: {
                             type: "tel",
-                            placeholder: "¡Su teléfono es!"
+                            placeholder: "¡Su teléfono es!",
+                            disabled: _vm.desabilitar == 1
                           },
                           domProps: { value: _vm.telefono },
                           on: {
@@ -38561,7 +38606,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "tel", placeholder: "slug de url" },
+                          attrs: {
+                            type: "tel",
+                            placeholder: "slug de url",
+                            disabled: _vm.desabilitar == 1
+                          },
                           domProps: { value: _vm.slug },
                           on: {
                             input: function($event) {

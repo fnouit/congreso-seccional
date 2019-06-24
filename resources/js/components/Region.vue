@@ -46,6 +46,9 @@
                                     <button type="button" @click="abrirModal('region', 'actualizar', region)" class="btn btn-warning btn-sm" >
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
+                                    <button type="button" @click="abrirModal('region', 'informacion', region)" class="btn btn-info btn-sm" >
+                                        <i class="icon-eye"></i>
+                                    </button>                                            
                                     <button type="button" class="btn btn-danger btn-sm" @click="eliminarRegion(region.id)" >
                                         <i class="icon-trash"></i>
                                     </button>                                            
@@ -90,42 +93,42 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la región" style="text-transform: uppercase;">
+                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la región" style="text-transform: uppercase;"  :disabled="desabilitar == 1">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input" >Sede</label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="sede" class="form-control" placeholder="Sede de la región" style="text-transform: uppercase;">
+                                    <input type="text" v-model="sede" class="form-control" placeholder="Sede de la región" style="text-transform: uppercase;" :disabled="desabilitar == 1">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Coordinador</label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="coordinador" class="form-control" placeholder="Nombre completo del coordinador regional" style="text-transform: uppercase;">
+                                    <input type="text" v-model="coordinador" class="form-control" placeholder="Nombre completo del coordinador regional" style="text-transform: uppercase;" :disabled="desabilitar == 1">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Correo electrónico</label>
                                 <div class="col-md-9">
-                                    <input type="email" v-model="correo"  class="form-control" placeholder="¿Cúal es su correo electrónico?">
+                                    <input type="email" v-model="correo"  class="form-control" placeholder="¿Cúal es su correo electrónico?" :disabled="desabilitar == 1">
                                 </div>
                             </div>                                                        
 
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Teléfono</label>
                                 <div class="col-md-9">
-                                    <input type="tel" v-model="telefono" class="form-control" placeholder="¡Su teléfono es!">
+                                    <input type="tel" v-model="telefono" class="form-control" placeholder="¡Su teléfono es!" :disabled="desabilitar == 1">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Su slug</label>
                                 <div class="col-md-9">
-                                    <input type="tel" v-model="slug" class="form-control" placeholder="slug de url">
+                                    <input type="tel" v-model="slug" class="form-control" placeholder="slug de url" :disabled="desabilitar == 1">
                                 </div>
                             </div>
 
@@ -183,7 +186,8 @@
                 },
                 offset : 3,
                 criterio : 'nombre',
-                buscar : ''
+                buscar : '',
+                desabilitar: 0
             }
         },
         computed:{
@@ -335,6 +339,8 @@
                 this.telefono = '';
                 // this.photo = '';
                 this.slug = '';
+                this.desabilitar = 0;
+
             },
             abrirModal(modelo, accion, data = []) {
                 switch (modelo) {
@@ -366,7 +372,24 @@
                                 // this.photo = data['photo'];
                                 this.slug = data['slug'];
                                 this.btnAccion = 2;
+                                
                                 break;                               
+                            }
+
+                            case "informacion": {
+                                this.region_id = data['id'];
+                                this.tituloModal = 'Mostrar información de la Region';
+                                this.modal = 1;
+                                this.nombre = data['nombre'];
+                                this.sede = data['sede'];
+                                this.coordinador = data['coordinador'];
+                                this.correo = data['email'];
+                                this.telefono = data['telefono'];
+                                // this.photo = data['photo'];
+                                this.slug = data['slug'];
+                                this.btnAccion = 3;
+                                this.desabilitar = 1;
+                                break;  
                             }
                         }
                     }
