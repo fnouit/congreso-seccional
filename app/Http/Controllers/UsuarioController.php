@@ -11,6 +11,10 @@ use App\Situacion;
 use App\Estudio;
 use App\Nomenclatura;
 use App\Nivel;
+use Illuminate\Support\Facades\Auth;
+
+
+use App\User;
 
 class UsuarioController extends Controller
 {
@@ -21,7 +25,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $delegados = Delegado::all();
+        // $delegados = Delegado::all();
+        $delegados = Delegado::where('user_id',Auth::user()->id)->get();
         $regiones = Region::all();
         $delegaciones = Delegacion::all();     
         $generos = Genero::all();   
@@ -45,8 +50,7 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
-       
-        
+
         $delegado = new Delegado();
 
         $delegado->delegacion_id = $request->get('delegaciones');
@@ -64,6 +68,7 @@ class UsuarioController extends Controller
         $delegado->seccion = "SECCIÓN 56";
         $delegado->estado = "VERACRUZ";
         $delegado->slug = $delegado->nombre.'_'.$delegado->ap_paterno.'_'.$delegado->ap_materno;
+        $delegado->user_id = Auth::user()->id;
 
         $delegacion = Delegacion::where('id',$delegado->delegacion_id)->get();
 

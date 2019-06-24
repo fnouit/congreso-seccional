@@ -31,11 +31,13 @@ class CreateDelegadosTable extends Migration
             $table->string('estado')->nullable()->default('VERACRUZ');
             $table->string('imagen')->default('avatar.png');
             $table->string('slug')->unique();
+            $table->unsignedInteger('user_id')->unsigned();
 
             $table->foreign('delegacion_id')->references('id')->on('delegacions');
             $table->foreign('estudio_id')->references('id')->on('estudios');
             $table->foreign('situacion_id')->references('id')->on('situacions');
             $table->foreign('genero_id')->references('id')->on('generos');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
         });

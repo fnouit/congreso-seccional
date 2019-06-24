@@ -38,6 +38,7 @@
                       <th scope="col">FACEBOOK</th>
                       <th scope="col">TWITTER</th>
                       <th scope="col">RUTA DE IMAGEN</th>
+                      <th scope="col">USUARIO</th>
                   </tr>
               </thead>            
               <tbody>
@@ -59,6 +60,7 @@
                           <td>{{$delegado->facebook}}</td>
                           <td>{{$delegado->twitter}}</td>
                           <td>{{$delegado->imagen}}</td>
+                          <td>{{$delegado->user->name}}</td>
                       </tr>
                   @endforeach
               </tbody>

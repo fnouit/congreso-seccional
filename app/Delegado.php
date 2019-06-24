@@ -47,5 +47,9 @@ class Delegado extends Model
         return $this->belongsTo('App\Delegacion');
     }    
 
+    public function user() 
+    {
+        return $this->belongsTo('App\User');
+    }   
 
 }
