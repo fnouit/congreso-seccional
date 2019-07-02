@@ -13,4 +13,7 @@
     <template v-if="menu==3">
         <nivel></nivel>
     </template>
+    <template v-if="menu==4">
+        <nomenclatura></nomenclatura>
+    </template>    
 @endsection

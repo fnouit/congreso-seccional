@@ -12,10 +12,33 @@ class NomenclaturaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $nomenclaturas = Nomenclatura::all();
-        return view ('admin.nomenclaturas.index',compact('nomenclaturas'));
+        // $nomenclaturas = Nomenclatura::all();
+        // return view ('admin.nomenclaturas.index',compact('nomenclaturas'));
+
+        if (!$request->ajax()) return redirect('/admin');
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+        if ($buscar == '') {
+            $nomenclaturas = Nomenclatura::orderBy('id','desc')->paginate(15);            
+        }
+        else{
+            $nomenclaturas = Nomenclatura::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id','desc')->paginate(15);
+        }
+
+        return [
+            'pagination' => [
+                'total' => $nomenclaturas->total(),
+                'current_page' => $nomenclaturas->currentPage(),
+                'per_page' => $nomenclaturas->perPage(),	
+                'last_page' => $nomenclaturas->lastPage(),
+                'from' => $nomenclaturas->firstItem(),	
+                'to' => $nomenclaturas->lastItem()
+            ], 'nomenclaturas' => $nomenclaturas
+        ];        
     }
 
     /**
@@ -25,7 +48,7 @@ class NomenclaturaController extends Controller
      */
     public function create()
     {
-        return view ('admin.nomenclaturas.create');
+        // return view ('admin.nomenclaturas.create');
     }
 
     /**
@@ -36,26 +59,35 @@ class NomenclaturaController extends Controller
      */
     public function store(Request $request)
     {
+        /* 
+            $nomenclatura = new Nomenclatura();
+
+            $mensaje =[
+                'nomenclatura.required' => 'Es necesario ingresar una Nomenclatura de la delegación',
+                'slug.required' => 'El nombre de el slug es necesario',
+            ];
+
+            $reglas = [
+                'nomenclatura' => 'required',
+                'slug' => 'required',
+            ];
+
+            $this->validate($request, $reglas, $mensaje);
+
+            
+            $nomenclatura->nomenclatura = $request->nomenclatura;
+            $nomenclatura->slug = $request->slug;
+
+            $nomenclatura->save();
+            return redirect('/nomenclaturas')->with('success','Nomenclatura '.$nomenclatura->nomenclatura.' creada satisfactoriamente');
+        */
+        if (!$request->ajax()) return redirect('/admin');
         $nomenclatura = new Nomenclatura();
-
-        $mensaje =[
-            'nomenclatura.required' => 'Es necesario ingresar una Nomenclatura de la delegación',
-            'slug.required' => 'El nombre de el slug es necesario',
-        ];
-
-        $reglas = [
-            'nomenclatura' => 'required',
-            'slug' => 'required',
-        ];
-
-        $this->validate($request, $reglas, $mensaje);
-
         
-        $nomenclatura->nomenclatura = $request->nomenclatura;
+        $nomenclatura->nomenclatura = strtoupper($request->nombre);
         $nomenclatura->slug = $request->slug;
-
-        $nomenclatura->save();
-        return redirect('/nomenclaturas')->with('success','Nomenclatura '.$nomenclatura->nomenclatura.' creada satisfactoriamente');
+        
+        $nomenclatura->save();        
     }
 
     /**
@@ -66,8 +98,8 @@ class NomenclaturaController extends Controller
      */
     public function show($slug)
     {
-        $nomenclatura = Nomenclatura::where('slug','=', $slug)->firstOrFail();
-        return view ('admin.nomenclaturas.show',compact('nomenclatura'));
+        // $nomenclatura = Nomenclatura::where('slug','=', $slug)->firstOrFail();
+        // return view ('admin.nomenclaturas.show',compact('nomenclatura'));        
     }
 
     /**
@@ -78,8 +110,8 @@ class NomenclaturaController extends Controller
      */
     public function edit($slug)
     {
-        $nomenclatura = Nomenclatura::whereSlug($slug)->firstOrFail();
-        return view ('admin.nomenclaturas.edit')->with(compact('nomenclatura'));    
+        // $nomenclatura = Nomenclatura::whereSlug($slug)->firstOrFail();
+        // return view ('admin.nomenclaturas.edit')->with(compact('nomenclatura'));    
     }
 
     /**
@@ -89,27 +121,36 @@ class NomenclaturaController extends Controller
      * @param  \App\Nomenclatura  $nomenclatura
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(Request $request)
     {
-        $mensaje =[
-            'nomenclatura.required' => 'Es necesario ingresar un nombre para la Nomenclatura',
-            'slug.required' => 'El nombre de el slug es necesario',
-        ];
+        /*
+            $mensaje =[
+                'nomenclatura.required' => 'Es necesario ingresar un nombre para la Nomenclatura',
+                'slug.required' => 'El nombre de el slug es necesario',
+            ];
 
-        $reglas = [
-            'nomenclatura' => 'required',
-            'slug' => 'required',
-        ];
+            $reglas = [
+                'nomenclatura' => 'required',
+                'slug' => 'required',
+            ];
 
-        $this->validate($request, $reglas, $mensaje);
+            $this->validate($request, $reglas, $mensaje);
 
-        $nomenclatura = Nomenclatura::where('slug','=', $slug)->firstOrFail();
-        
-        $nomenclatura->nomenclatura = $request->nomenclatura;
-        $nomenclatura->slug = $request->slug;
-        $nomenclatura->save();
+            $nomenclatura = Nomenclatura::where('slug','=', $slug)->firstOrFail();
+            
+            $nomenclatura->nomenclatura = $request->nomenclatura;
+            $nomenclatura->slug = $request->slug;
+            $nomenclatura->save();
 
-        return redirect()->route('mostrar.nomenclatura',[$nomenclatura->slug]);
+            return redirect()->route('mostrar.nomenclatura',[$nomenclatura->slug]);
+        */
+        if (!$request->ajax()) return redirect('/admin');
+        $nomenclatura = Nomenclatura::findOrFail($request->id);
+
+        $nomenclatura->nomenclatura = strtoupper($request->nombre);
+        $nomenclatura->slug = $request->slug;        
+
+        $nomenclatura->save();        
     }
 
     /**
@@ -118,10 +159,11 @@ class NomenclaturaController extends Controller
      * @param  \App\Nomenclatura  $nomenclatura
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug)
+    public function destroy($id)
     {
-        $nomenclatura = Nomenclatura::where('slug','=', $slug)->firstOrFail();        
-        $nomenclatura->delete();
-        return redirect('/nomenclaturas')->with('success','La información ha sido borrada');
+        // $nomenclatura = Nomenclatura::where('slug','=', $slug)->firstOrFail();        
+        // $nomenclatura->delete();
+        // return redirect('/nomenclaturas')->with('success','La información ha sido borrada');
+        Nomenclatura::find($id)->delete();
     }
 }

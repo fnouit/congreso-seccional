@@ -65,13 +65,17 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     /**
      * Nomenclaturas Delegacionales
      */
-    Route::get('/nomenclaturas', 'NomenclaturaController@index')->name('ver.nomenclaturas');
-    Route::get('/crear/nomenclatura/', 'NomenclaturaController@create')->name('crear.nomenclatura');
-    Route::post('/almacena/nomenclatura/{slug?}', 'NomenclaturaController@store')->name('almacena.nomenclatura');
-    Route::get('/mostrar/nomenclatura/{slug?}', 'NomenclaturaController@show')->name('mostrar.nomenclatura');
-    Route::get('/editar/nomenclatura/{slug?}','NomenclaturaController@edit')->name('editar.nomenclatura');
-    Route::put('/ctualizar/nomenclatura/{slug?}', 'NomenclaturaController@update')->name('actualizar.nomenclatura');
-    Route::delete('/eliminar/nomenclatura/{slug?}', 'NomenclaturaController@destroy')->name('eliminar.nomenclatura');
+    // Route::get('/nomenclaturas', 'NomenclaturaController@index')->name('ver.nomenclaturas');
+    // Route::get('/crear/nomenclatura/', 'NomenclaturaController@create')->name('crear.nomenclatura');
+    // Route::post('/almacena/nomenclatura/{slug?}', 'NomenclaturaController@store')->name('almacena.nomenclatura');
+    // Route::get('/mostrar/nomenclatura/{slug?}', 'NomenclaturaController@show')->name('mostrar.nomenclatura');
+    // Route::get('/editar/nomenclatura/{slug?}','NomenclaturaController@edit')->name('editar.nomenclatura');
+    // Route::put('/ctualizar/nomenclatura/{slug?}', 'NomenclaturaController@update')->name('actualizar.nomenclatura');
+    // Route::delete('/eliminar/nomenclatura/{slug?}', 'NomenclaturaController@destroy')->name('eliminar.nomenclatura');
+    Route::get('/nomenclaturas', 'NomenclaturaController@index')->name('nomenclaturas');
+    Route::post('/nomenclatura/registrar/',   'NomenclaturaController@store');
+    Route::put ('/nomenclatura/actualizar/', 'NomenclaturaController@update');
+    Route::delete('/nomenclatura/eliminar/{id}', 'NomenclaturaController@destroy');
 
     /**
      * Delegacionales
