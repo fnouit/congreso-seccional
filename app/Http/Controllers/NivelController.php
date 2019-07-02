@@ -12,20 +12,34 @@ class NivelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $niveles = Nivel::all();
-        return view ('admin.niveles.index',compact('niveles'));
-    }
+        // $niveles = Nivel::all();
+        // return view ('admin.niveles.index',compact('niveles'));
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view ('admin.niveles.create');
+        if (!$request->ajax()) return redirect('/admin');
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+        if ($buscar == '') {
+            $niveles = Nivel::orderBy('id','desc')->paginate(15);            
+        }
+        else{
+            $niveles = Nivel::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id','desc')->paginate(15);
+        }
+
+        return [
+            'pagination' => [
+                'total' => $niveles->total(),
+                'current_page' => $niveles->currentPage(),
+                'per_page' => $niveles->perPage(),	
+                'last_page' => $niveles->lastPage(),
+                'from' => $niveles->firstItem(),	
+                'to' => $niveles->lastItem()
+            ], 'niveles' => $niveles
+        ];
+
     }
 
     /**
@@ -36,50 +50,13 @@ class NivelController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->ajax()) return redirect('/admin');
         $nivel = new Nivel();
-
-        $mensaje =[
-            'nivel_educativo.required' => 'Es necesario ingresar un nombre para el Nivel',
-            'slug.required' => 'El nombre de el slug es necesario',
-        ];
-
-        $reglas = [
-            'nivel_educativo' => 'required',
-            'slug' => 'required',
-        ];
-
-        $this->validate($request, $reglas, $mensaje);
-
         
-        $nivel->nivel_educativo = $request->nivel_educativo;
+        $nivel->nivel_educativo = strtoupper($request->nombre);
         $nivel->slug = $request->slug;
-
+        
         $nivel->save();
-        return redirect('/niveles')->with('success','Archivo creado');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Nivel  $nivel
-     * @return \Illuminate\Http\Response
-     */
-    public function show($slug)
-    {
-        $nivel = Nivel::where('slug','=', $slug)->firstOrFail();
-        return view ('admin.niveles.show',compact('nivel'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Nivel  $nivel
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($slug)
-    {
-        $nivel = Nivel::whereSlug($slug)->firstOrFail();
-        return view ('admin.niveles.edit')->with(compact('nivel'));    
     }
 
     /**
@@ -89,27 +66,15 @@ class NivelController extends Controller
      * @param  \App\Nivel  $nivel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(Request $request)
     {
-        $mensaje =[
-            'nivel_educativo.required' => 'Es necesario ingresar un nombre para el Nivel',
-            'slug.required' => 'El nombre de el slug es necesario',
-        ];
+        if (!$request->ajax()) return redirect('/admin');
+        $nivel = Nivel::findOrFail($request->id);
 
-        $reglas = [
-            'nivel_educativo' => 'required',
-            'slug' => 'required',
-        ];
+        $nivel->nivel_educativo = strtoupper($request->nombre);
+        $nivel->slug = $request->slug;        
 
-        $this->validate($request, $reglas, $mensaje);
-
-        $nivel = Nivel::where('slug','=', $slug)->firstOrFail();
-        
-        $nivel->nivel_educativo = $request->nivel_educativo;
-        $nivel->slug = $request->slug;
         $nivel->save();
-
-        return redirect()->route('mostrar.nivel',[$nivel->slug]);
     }
 
     /**
@@ -118,10 +83,11 @@ class NivelController extends Controller
      * @param  \App\Nivel  $nivel
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug)
+    public function destroy($id)
     {
-        $nivel = Nivel::where('slug','=', $slug)->firstOrFail();        
-        $nivel->delete();
-        return redirect('/niveles')->with('borrado','La información ha sido borrada');
+        // $nivel = Nivel::where('slug','=', $slug)->firstOrFail();        
+        // $nivel->delete();
+        // return redirect('/niveles')->with('borrado','La información ha sido borrada');
+        Nivel::find($id)->delete();
     }
 }

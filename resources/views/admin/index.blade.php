@@ -10,4 +10,7 @@
     <template v-if="menu==2">
         <h1>Delegaciones</h1>
     </template>
+    <template v-if="menu==3">
+        <nivel></nivel>
+    </template>
 @endsection

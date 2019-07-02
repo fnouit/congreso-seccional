@@ -28,7 +28,7 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     Route::get('/', function (){ return view ('admin.index'); });
     
     /**
-     * Niveles Educativos
+     * Ususario
      */
     Route::get(     '/usuarios',                 'UserController@index')    ->name('ver.usuarios');
     Route::get(     '/crear/user/',              'UserController@create')   ->name('crear.user');
@@ -49,13 +49,18 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     /**
      * Niveles Educativos
      */
-    Route::get(     '/niveles',                   'NivelController@index')    ->name('ver.niveles');
-    Route::get(     '/crear/nivel/',              'NivelController@create')   ->name('crear.nivel');
-    Route::post(    '/almacena/nivel/{slug?}',    'NivelController@store')    ->name('almacena.nivel');
-    Route::get(     '/mostrar/nivel/{slug?}',     'NivelController@show')     ->name('mostrar.nivel');
-    Route::get(     '/editar/nivel/{slug?}',      'NivelController@edit')     ->name('editar.nivel');
-    Route::put(     '/actualizar/nivel/{slug?}',  'NivelController@update')   ->name('actualizar.nivel');
-    Route::delete(  '/eliminar/nivel/{slug?}',    'NivelController@destroy')  ->name('eliminar.nivel');
+    // Route::get(     '/niveles',                   'NivelController@index')    ->name('ver.niveles');
+    // Route::get(     '/crear/nivel/',              'NivelController@create')   ->name('crear.nivel');
+    // Route::post(    '/almacena/nivel/{slug?}',    'NivelController@store')    ->name('almacena.nivel');
+    // Route::get(     '/mostrar/nivel/{slug?}',     'NivelController@show')     ->name('mostrar.nivel');
+    // Route::get(     '/editar/nivel/{slug?}',      'NivelController@edit')     ->name('editar.nivel');
+    // Route::put(     '/actualizar/nivel/{slug?}',  'NivelController@update')   ->name('actualizar.nivel');
+    // Route::delete(  '/eliminar/nivel/{slug?}',    'NivelController@destroy')  ->name('eliminar.nivel');
+    Route::get('/niveles', 'NivelController@index')->name('niveles');
+    Route::post('/nivel/registrar/',   'NivelController@store');
+    Route::put ('/nivel/actualizar/', 'NivelController@update');
+    Route::delete('/nivel/eliminar/{id}', 'NivelController@destroy');
+
 
     /**
      * Nomenclaturas Delegacionales

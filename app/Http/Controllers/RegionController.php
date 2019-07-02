@@ -137,7 +137,7 @@ class RegionController extends Controller
     {
         // $region = Region::findOrFail($request->id);
         // $region->delete();
-        if (!$request->ajax()) return redirect('/admin');
+        // if (!$request->ajax()) return redirect('/admin');
         Region::find($id)->delete();
     }
   

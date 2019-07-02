@@ -19,13 +19,10 @@
                             </ul>
                         </li>
                         <li class="nav-item nav-dropdown">
-                            <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-wallet"></i> Compras</a>
+                            <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-wallet"></i> Nivel</a>
                             <ul class="nav-dropdown-items">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="i#"><i class="icon-wallet"></i> Ingresos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class="icon-notebook"></i> Proveedores</a>
+                                <li @click="menu=3" class="nav-item">
+                                    <a class="nav-link" href="#"><i class="icon-wallet"></i> Niveles Educativos</a>
                                 </li>
                             </ul>
                         </li>
