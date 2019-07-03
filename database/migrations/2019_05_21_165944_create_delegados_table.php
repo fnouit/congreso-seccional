@@ -30,6 +30,7 @@ class CreateDelegadosTable extends Migration
             $table->string('seccion')->nullable()->default('56');
             $table->string('estado')->nullable()->default('VERACRUZ');
             $table->string('imagen')->default('avatar.png');
+            $table->softDeletes();
             $table->string('slug')->unique();
             $table->unsignedInteger('user_id')->unsigned();
 

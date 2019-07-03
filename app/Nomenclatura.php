@@ -3,11 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Nomenclatura extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
-        'nomenclatura'
+        'nomenclatura',
+        'slug'
     ];
 
     protected $table = 'nomenclaturas';

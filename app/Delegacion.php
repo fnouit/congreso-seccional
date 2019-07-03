@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Delegacion extends Model
 {
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -18,7 +21,8 @@ class Delegacion extends Model
         'sede',
         'nivel_id',
         'region_id',
-        'slug'
+        'slug',
+        'deleted_at'
     ];
     
     protected $table = 'delegacions';

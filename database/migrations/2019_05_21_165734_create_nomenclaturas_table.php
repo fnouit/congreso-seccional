@@ -17,6 +17,7 @@ class CreateNomenclaturasTable extends Migration
             $table->increments('id');
             $table->string('nomenclatura',128);
             $table->string('slug')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ class CreateNivelsTable extends Migration
             $table->increments('id');
             $table->string('nivel_educativo', 128);
             $table->string('slug')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

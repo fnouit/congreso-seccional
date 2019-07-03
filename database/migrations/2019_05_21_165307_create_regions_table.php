@@ -21,7 +21,8 @@ class CreateRegionsTable extends Migration
             $table->string('email');
             $table->string('telefono');            
             $table->string('photo_extension')->nullable();    
-            $table->string('slug')->unique();                   
+            $table->string('slug')->unique();   
+            $table->softDeletes();                
             $table->timestamps();
         });
     }
