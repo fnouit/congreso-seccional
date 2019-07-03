@@ -22,10 +22,10 @@ class RegionController extends Controller
         $criterio = $request->criterio;
 
         if ($buscar == '') {
-            $regiones = Region::orderBy('id','desc')->paginate(5);            
+            $regiones = Region::orderBy('id','desc')->paginate(15);            
         }
         else{
-            $regiones = Region::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id','desc')->paginate(5);
+            $regiones = Region::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id','desc')->paginate(15);
         }
 
         return [

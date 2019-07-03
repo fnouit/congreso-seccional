@@ -8,7 +8,7 @@
         <region></region>
     </template>
     <template v-if="menu==2">
-        <h1>Delegaciones</h1>
+        <delegacion></delegacion>
     </template>
     <template v-if="menu==3">
         <nivel></nivel>

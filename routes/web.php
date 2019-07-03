@@ -80,13 +80,17 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     /**
      * Delegacionales
      */
-    Route::get('/delegaciones', 'DelegacionController@index')->name('ver.delegaciones');
-    Route::get('/crear/delegacion/', 'DelegacionController@create')->name('crear.delegacion');
-    Route::post('/almacena/delegacion/{slug?}', 'DelegacionController@store')->name('almacena.delegacion');
-    Route::get('/mostrar/delegacion/{slug?}', 'DelegacionController@show')->name('mostrar.delegacion');
-    Route::get('/editar/delegacion/{slug?}','DelegacionController@edit')->name('editar.delegacion');
-    Route::put('/actualizar/delegacion/{slug?}', 'DelegacionController@update')->name('actualizar.delegacion');
-    Route::delete('/eliminar/delegacion/{slug?}', 'DelegacionController@destroy')->name('eliminar.delegacion');
+    // Route::get('/delegaciones', 'DelegacionController@index')->name('ver.delegaciones');
+    // Route::get('/crear/delegacion/', 'DelegacionController@create')->name('crear.delegacion');
+    // Route::post('/almacena/delegacion/{slug?}', 'DelegacionController@store')->name('almacena.delegacion');
+    // Route::get('/mostrar/delegacion/{slug?}', 'DelegacionController@show')->name('mostrar.delegacion');
+    // Route::get('/editar/delegacion/{slug?}','DelegacionController@edit')->name('editar.delegacion');
+    // Route::put('/actualizar/delegacion/{slug?}', 'DelegacionController@update')->name('actualizar.delegacion');
+    // Route::delete('/eliminar/delegacion/{slug?}', 'DelegacionController@destroy')->name('eliminar.delegacion');
+    Route::get('/delegaciones', 'DelegacionController@index')->name('delegaciones');
+    Route::post('/delegacion/registrar',   'DelegacionController@store');
+    Route::put ('/delegacion/actualizar/', 'DelegacionController@update');
+    Route::delete('/delegacion/eliminar/{id}', 'DelegacionController@destroy');    
 
     /**
      * Delegados
