@@ -25,6 +25,7 @@ Vue.component('region', require('./components/Region.vue').default);
 Vue.component('nivel', require('./components/Nivel.vue').default);
 Vue.component('nomenclatura', require('./components/Nomenclatura.vue').default);
 Vue.component('delegacion', require('./components/Delegacion.vue').default);
+Vue.component('delegado', require('./components/Delegado.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

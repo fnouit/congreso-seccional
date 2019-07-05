@@ -15,5 +15,8 @@
     </template>
     <template v-if="menu==4">
         <nomenclatura></nomenclatura>
-    </template>    
+    </template>  
+    <template v-if="menu==5">
+        <delegado></delegado>
+    </template>       
 @endsection

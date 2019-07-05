@@ -95,16 +95,26 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     /**
      * Delegados
      */
-    Route::get('/delegados', 'DelegadoController@index')->name('ver.delegados');
-    Route::get('/regiones/{id}/delegaciones','DelegadoController@delegaciones');
-    Route::get('/crear/delegado/', 'DelegadoController@create')->name('crear.delegado');
-    Route::post('/almacena/delegado/', 'DelegadoController@store')->name('almacena.delegado');
+    // Route::get('/delegados', 'DelegadoController@index')->name('ver.delegados');
+    // Route::get('/regiones/{id}/delegaciones','DelegadoController@delegaciones');
+    // Route::get('/crear/delegado/', 'DelegadoController@create')->name('crear.delegado');
+    // Route::post('/almacena/delegado/', 'DelegadoController@store')->name('almacena.delegado');
 
-    Route::get('/mostrar/delegado/{slug?}', 'DelegadoController@show')->name('mostrar.delegado');
-    Route::get('/editar/delegado/{slug?}','DelegadoController@edit')->name('editar.delegado');
-    Route::put('/actualizar/delegado/{slug?}', 'DelegadoController@update')->name('actualizar.delegado');
-    Route::delete('/eliminar/delegado/{slug?}', 'DelegadoController@destroy')->name('eliminar.delegado');
+    // Route::get('/mostrar/delegado/{slug?}', 'DelegadoController@show')->name('mostrar.delegado');
+    // Route::get('/editar/delegado/{slug?}','DelegadoController@edit')->name('editar.delegado');
+    // Route::put('/actualizar/delegado/{slug?}', 'DelegadoController@update')->name('actualizar.delegado');
+    // Route::delete('/eliminar/delegado/{slug?}', 'DelegadoController@destroy')->name('eliminar.delegado');
     Route::get('/exportar/excel/', 'DelegadoController@export')->name('exportar.delegados');
+
+    Route::get('/delegados', 'DelegadoController@index')->name('delegados');
+    Route::post('/delegado/registrar',   'DelegadoController@store');
+    Route::put ('/delegado/actualizar/', 'DelegadoController@update');
+    Route::delete('/delegado/eliminar/{id}', 'DelegadoController@destroy');
+    Route::get('/delegados/arrayGeneros', 'DelegadoController@arrayGeneros');
+    Route::get('/delegados/arrayEstudios', 'DelegadoController@arrayEstudios');
+    Route::get('/delegados/arrayEcivil', 'DelegadoController@arrayEcivil');
+    Route::get('/delegados/arrayDelegaciones/{id}', 'DelegadoController@arrayDelegaciones');
+    Route::get('/delegados/arrayRegiones', 'DelegadoController@arrayRegiones');
     
 });
 
