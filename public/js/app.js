@@ -2357,6 +2357,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2396,7 +2408,8 @@ __webpack_require__.r(__webpack_exports__);
       offset: 3,
       criterio: 'nombre',
       buscar: '',
-      desabilitar: 0
+      desabilitar: 0,
+      img_delegado: ''
     };
   },
   computed: {
@@ -2507,6 +2520,28 @@ __webpack_require__.r(__webpack_exports__);
       me.pagination.current_page = page;
       me.listarDelegado(page, buscar, criterio);
     },
+    updateProfile: function updateProfile(e) {
+      var _this = this;
+
+      var me = this;
+      var file = e.target.files[0]; // console.log(file);
+
+      var reader = new FileReader();
+
+      if (file['size'] < 2979836) {
+        reader.onloadend = function (file) {
+          _this.img_delegado = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire({
+          type: 'error',
+          title: 'Error...',
+          text: 'Error al subir archivo, demasiado grande en MB.'
+        });
+      }
+    },
     registrarDelegado: function registrarDelegado() {
       if (this.validarDelegado()) {
         return;
@@ -2525,7 +2560,8 @@ __webpack_require__.r(__webpack_exports__);
         'delegacion': this.delegacion,
         'genero': this.genero,
         'max_estudios': this.max_estudios,
-        'estado_civil': this.estado_civil
+        'estado_civil': this.estado_civil,
+        'photo': this.img_delegado
       }).then(function (response) {
         me.cerrarModal();
         me.listarDelegado(1, '', 'nombre');
@@ -2553,7 +2589,8 @@ __webpack_require__.r(__webpack_exports__);
         'genero': this.genero,
         'max_estudios': this.max_estudios,
         'estado_civil': this.estado_civil,
-        'id': this.delegado_id
+        'id': this.delegado_id,
+        'photo': this.img_delegado
       }).then(function (response) {
         me.cerrarModal();
         me.listarDelegado(1, '', 'nombre');
@@ -2563,7 +2600,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     eliminarDelegado: function eliminarDelegado(id) {
-      var _this = this;
+      var _this2 = this;
 
       Swal.fire({
         title: '¿Estás seguro?',
@@ -2577,7 +2614,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           // console.log(id);
-          var me = _this;
+          var me = _this2;
           axios["delete"]('/admin/delegado/eliminar/' + id).then(function (response) {
             me.listarDelegado(1, '', 'nombre');
             Swal.fire('¡Borrado!', 'Su registro ha sido eliminado.', 'success');
@@ -2594,8 +2631,10 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.delegacion) this.errorMsgDelegado.push("Es necesario que selecciones una delegación");
       if (!this.nombre) this.errorMsgDelegado.push("El campo nombre es requerido");
       if (!this.ap_paterno) this.errorMsgDelegado.push("Se necesita que ingrese el primer apellido");
-      if (!this.genero) this.errorMsgDelegado.push("Selecciona un genero");
       if (!this.rfc) this.errorMsgDelegado.push("El campo RFC no puede estar vacio");
+      if (!this.genero) this.errorMsgDelegado.push("Selecciona un genero");
+      if (!this.max_estudios) this.errorMsgDelegado.push("Selecciona un máximo grado de estudios");
+      if (!this.estado_civil) this.errorMsgDelegado.push("Selecciona un estado civíl");
       if (!this.email) this.errorMsgDelegado.push("Es necesario colocar un email");
       if (this.errorMsgDelegado.length) this.errorDelegado = 1;
       return this.errorDelegado;
@@ -2618,6 +2657,8 @@ __webpack_require__.r(__webpack_exports__);
       this.max_estudios = '';
       this.estado_civil = '';
       this.region_id = '';
+      this.img_delegado = '';
+      $("#img_delegado").val(null);
       this.desabilitar = 0;
     },
     abrirModal: function abrirModal(modelo, accion) {
@@ -2644,6 +2685,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.max_estudios = '';
                   this.estado_civil = '';
                   this.btnAccion = 1;
+                  this.img_delegado = '';
                   break;
                 }
 
@@ -2665,6 +2707,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.max_estudios = data['estudios_id'];
                   this.estado_civil = data['estado_id'];
                   this.region_id = data['region_id'];
+                  this.img_delegado = data['imagen'];
                   this.btnAccion = 2;
                   break;
                 }
@@ -2679,7 +2722,7 @@ __webpack_require__.r(__webpack_exports__);
     this.listarGeneros();
     this.listarEstudios();
     this.listarEcivil();
-    this.listarRegiones();
+    this.listarRegiones(); // this.updateProfile(this.e);
   }
 });
 
@@ -40900,7 +40943,17 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", {
                       domProps: { textContent: _vm._s(delegado.estado_civil) }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("img", {
+                        staticClass: "img-thumbnail img-fluid",
+                        attrs: {
+                          src: "img/img_delegados/" + delegado.imagen,
+                          width: "50px"
+                        }
+                      })
+                    ])
                   ])
                 }),
                 0
@@ -41321,7 +41374,8 @@ var render = function() {
                             attrs: {
                               type: "email",
                               placeholder: "Ingres un correo electrónico",
-                              disabled: _vm.desabilitar == 1
+                              disabled: _vm.desabilitar == 1,
+                              required: ""
                             },
                             domProps: { value: _vm.email },
                             on: {
@@ -41718,6 +41772,35 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-md-12 form-control-label" },
+                        [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-control-label",
+                              attrs: { for: "text-input" }
+                            },
+                            [_vm._v("Imagen")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            ref: "img_delegado",
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "file",
+                              name: "img_delegado",
+                              id: "img_delegado",
+                              disabled: _vm.desabilitar == 1
+                            },
+                            on: { change: _vm.updateProfile }
+                          })
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "div",
                       {
@@ -41848,7 +41931,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v(" Estudios ")]),
         _vm._v(" "),
-        _c("th", [_vm._v(" Estado civil ")])
+        _c("th", [_vm._v(" Estado civil ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Foto")])
       ])
     ])
   }

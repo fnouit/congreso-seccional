@@ -46,6 +46,7 @@
                                 <th> Genero </th>
                                 <th> Estudios </th>
                                 <th> Estado civil </th>
+                                <th> Foto</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,6 +73,9 @@
                                 <td v-text="delegado.genero"></td>
                                 <td v-text="delegado.maximo_estudio"></td>
                                 <td v-text="delegado.estado_civil"></td>
+                                <td>
+                                    <img :src="'img/img_delegados/'+delegado.imagen" class="img-thumbnail img-fluid" width="50px">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -140,7 +144,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6 form-control-label">
                                     <label class="form-control-label" for="text-input" >Email</label>
-                                    <input type="email" v-model="email" class="form-control" placeholder="Ingres un correo electrónico" :disabled="desabilitar == 1">
+                                    <input type="email" v-model="email" class="form-control" placeholder="Ingres un correo electrónico" :disabled="desabilitar == 1" required>
                                 </div>                                
                                 <div class="col-md-6 form-control-label">
                                     <label class="form-control-label" for="text-input" >RFC</label>
@@ -186,6 +190,14 @@
                                 <div class="col-md-3 form-control-label">                                
                                     <label class="form-control-label" for="text-input" >Twitter</label>
                                     <input type="text" v-model="twitter" class="form-control" placeholder="¿Tienes twitter?" :disabled="desabilitar == 1">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <div class="col-md-12 form-control-label">                                
+                                    <label class="form-control-label" for="text-input" >Imagen</label>
+                                    <input type="file" ref="img_delegado" @change="updateProfile" name="img_delegado" id="img_delegado" class="form-control" :disabled="desabilitar == 1">
                                 </div>
                             </div>
 
@@ -261,6 +273,7 @@
                 criterio : 'nombre',
                 buscar : '',
                 desabilitar: 0,
+                img_delegado : ''
             }
         },
         computed:{
@@ -339,8 +352,6 @@
                     });
             },
 
-
-
             listarRegiones(){
                 let me=this;
                 var url ='/admin/delegados/arrayRegiones/';
@@ -379,6 +390,27 @@
                 me.listarDelegado(page,buscar,criterio);
             },
 
+            updateProfile(e){
+                let me = this;
+                let file = e.target.files[0];
+                // console.log(file);
+                let reader = new FileReader();
+
+                if (file['size'] < 2979836) {
+                    reader.onloadend = (file) => {
+                        this.img_delegado = reader.result;
+                    }
+                    reader.readAsDataURL(file);
+                } else {   
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Error...',
+                        text: 'Error al subir archivo, demasiado grande en MB.'
+                    })                                     
+                }
+
+            },
+
             registrarDelegado() {
                 if (this.validarDelegado()) {
                     return;
@@ -396,7 +428,8 @@
                     'delegacion' : this.delegacion,
                     'genero' : this.genero,
                     'max_estudios' : this.max_estudios,
-                    'estado_civil' : this.estado_civil,                    
+                    'estado_civil' : this.estado_civil,             
+                    'photo' : this.img_delegado       
                 }).then(function (response) {
                         me.cerrarModal();
                         me.listarDelegado(1,'','nombre');
@@ -426,7 +459,8 @@
                     'genero' : this.genero,
                     'max_estudios' : this.max_estudios,
                     'estado_civil' : this.estado_civil,
-                    'id' : this.delegado_id
+                    'id' : this.delegado_id,
+                    'photo' : this.img_delegado  
                 }).then(function (response) {
                         me.cerrarModal();
                         me.listarDelegado(1,'','nombre');
@@ -475,8 +509,12 @@
                 if (!this.delegacion) this.errorMsgDelegado.push("Es necesario que selecciones una delegación");
                 if (!this.nombre) this.errorMsgDelegado.push("El campo nombre es requerido");
                 if (!this.ap_paterno) this.errorMsgDelegado.push("Se necesita que ingrese el primer apellido");
-                if (!this.genero) this.errorMsgDelegado.push("Selecciona un genero");
                 if (!this.rfc) this.errorMsgDelegado.push("El campo RFC no puede estar vacio");
+                if (!this.genero) this.errorMsgDelegado.push("Selecciona un genero");
+                if (!this.max_estudios) this.errorMsgDelegado.push("Selecciona un máximo grado de estudios");
+                if (!this.estado_civil) this.errorMsgDelegado.push("Selecciona un estado civíl");
+
+
                 if (!this.email) this.errorMsgDelegado.push("Es necesario colocar un email");
                 if (this.errorMsgDelegado.length) this.errorDelegado = 1;
                 return this.errorDelegado;
@@ -502,6 +540,9 @@
                 this.max_estudios = '';
                 this.estado_civil = '';
                 this.region_id = '';
+
+                this.img_delegado = '';
+                $("#img_delegado").val(null);
 
                 this.desabilitar = 0;
             },
@@ -529,6 +570,8 @@
                                 this.estado_civil = '';
 
                                 this.btnAccion = 1;
+
+                                this.img_delegado = '';
                                 break;                               
                             }
 
@@ -553,6 +596,8 @@
 
                                 this.region_id = data['region_id'];
 
+                                this.img_delegado = data['imagen'];
+
                                 this.btnAccion = 2;
                                 break;                               
                             }
@@ -569,6 +614,7 @@
             this.listarEcivil();
 
             this.listarRegiones();
+            // this.updateProfile(this.e);
         }
     }
 </script>

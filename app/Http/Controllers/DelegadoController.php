@@ -51,7 +51,7 @@ class DelegadoController extends Controller
                     WHERE delegacions.id = 153            
         */
 
-        if (!$request->ajax()) return redirect('/admin');
+        // if (!$request->ajax()) return redirect('/admin');
         
         $buscar = $request->buscar;
         $criterio = $request->criterio;
@@ -64,7 +64,7 @@ class DelegadoController extends Controller
                                         ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
                                         ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
                                         ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
-                                        'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter')        
+                                        'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen')        
                                         ->orderBy('delegados.id','desc')
                                         ->paginate(30);
         } else {
@@ -176,7 +176,12 @@ class DelegadoController extends Controller
             return redirect('admin/delegados')->with('success','Archivo creado');
         */
 
-        if (!$request->ajax()) return redirect('/admin');
+
+
+
+
+
+        // if (!$request->ajax()) return redirect('/admin');
 
         $delegado = new Delegado();
         
@@ -190,14 +195,23 @@ class DelegadoController extends Controller
         $delegado->twitter = $request->twitter;
 
 
+        if ($request->photo /*!= $foto_actual*/) {
+            $name = time().'.'.explode('/', explode(':', substr($request->photo,0,strpos($request->photo,';')))[1])[1];
+            \Image::make($request->photo)->save(public_path('img/img_delegados/').$name);
+            // $request->merge(['photo' => $name]);
+            $delegado->imagen = $name;
+        }
+        
+
+
         $delegado->delegacion_id = $request->delegacion;
         $delegado->genero_id = $request->genero;
         $delegado->estudio_id = $request->max_estudios;
         $delegado->situacion_id = $request->estado_civil;  
-        
-        $delegado->seccion = "SECCIÓN 56";
-        $delegado->estado = "VERACRUZ";
+
         $delegado->slug = $request->nombre.'_'.$request->ap_paterno.'_'.$request->ap_materno;    
+
+        
         $delegado->user_id = 1;
 
         $delegado->save();
@@ -340,8 +354,20 @@ class DelegadoController extends Controller
         $delegado->estudio_id = $request->max_estudios;
         $delegado->situacion_id = $request->estado_civil;  
         
-        $delegado->seccion = "SECCIÓN 56";
-        $delegado->estado = "VERACRUZ";
+
+        $foto_actual = $delegado->imagen;
+        
+
+        if ($request->photo != $foto_actual) {
+            $name = time().'.'.explode('/', explode(':', substr($request->photo,0,strpos($request->photo,';')))[1])[1];
+            \Image::make($request->photo)->save(public_path('img/img_delegados/').$name);
+            // $request->merge(['photo' => $name]);
+            $delegado->imagen = $name;
+        }
+
+
+
+
         $delegado->slug = $request->nombre.'_'.$request->ap_paterno.'_'.$request->ap_materno;    
         $delegado->user_id = 1;
 
