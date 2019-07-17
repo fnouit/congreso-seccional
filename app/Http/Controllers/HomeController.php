@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->admin) {
-            return redirect('admin/delegados');
+            return redirect('admin/');
         } else {
             return redirect('usuario/index');
         }

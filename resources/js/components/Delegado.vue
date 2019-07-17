@@ -74,7 +74,7 @@
                                 <td v-text="delegado.maximo_estudio"></td>
                                 <td v-text="delegado.estado_civil"></td>
                                 <td>
-                                    <img :src="'img/img_delegados/'+delegado.imagen" class="img-thumbnail img-fluid" width="50px">
+                                    <img :src="'../img/img_delegados/'+delegado.imagen" class="img-thumbnail img-fluid" width="50px">
                                 </td>
                             </tr>
                         </tbody>

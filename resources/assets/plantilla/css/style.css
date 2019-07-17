@@ -6105,7 +6105,7 @@ body {
       padding: 0; }
 
 .img-avatar {
-  border-radius: 50em; }
+  border-radius: 10em; }
 
 .avatar {
   position: relative;
@@ -6122,7 +6122,7 @@ body {
     width: 10px;
     height: 10px;
     border: 1px solid #fff;
-    border-radius: 50em; }
+    border-radius: 10em; }
 
 .avatar.avatar-xs {
   position: relative;
@@ -6139,7 +6139,7 @@ body {
     width: 8px;
     height: 8px;
     border: 1px solid #fff;
-    border-radius: 50em; }
+    border-radius: 10em; }
 
 .avatar.avatar-sm {
   position: relative;
@@ -6156,7 +6156,7 @@ body {
     width: 8px;
     height: 8px;
     border: 1px solid #fff;
-    border-radius: 50em; }
+    border-radius: 10em; }
 
 .avatar.avatar-lg {
   position: relative;
@@ -6173,7 +6173,7 @@ body {
     width: 12px;
     height: 12px;
     border: 1px solid #fff;
-    border-radius: 50em; }
+    border-radius: 10em; }
 
 .avatars-stack .avatar.avatar-xs {
   margin-right: -10px; }

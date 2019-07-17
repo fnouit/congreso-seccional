@@ -2369,6 +2369,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -8455,7 +8459,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content {\n    width: 100% !important;\n    position:absolute !important;\n}\n.mostrar {\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-erro {\n    display: flex;\n    justify-content: center;\n}\n.text-error {\n    color: brown !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content {\n    width: 100% !important;\n    position:absolute !important;\n}\n.mostrar {\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-erro {\n    display: flex;\n    justify-content: center;\n}\n.text-error {\n    color: brown !important;\n    font-weight: bold;\n}\n.texto-o, h6 {\n    color: red !important;\n    font-weight: bold;\n}\nem { color: red !important; font-weight: bold; font-size: large;}\n", ""]);
 
 // exports
 
@@ -41301,6 +41305,8 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
+                _vm._m(2),
+                _vm._v(" "),
                 _c(
                   "form",
                   {
@@ -41313,6 +41319,8 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-4 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
+                          _vm._v(" "),
                           _c(
                             "label",
                             {
@@ -41388,6 +41396,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-8 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41433,6 +41442,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-4 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41474,6 +41484,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-4 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41558,6 +41569,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-6 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41600,6 +41612,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-6 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41643,6 +41656,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-4 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41714,6 +41728,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-4 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41785,6 +41800,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-4 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41858,6 +41874,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-6 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -41983,6 +42000,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-12 form-control-label" },
                         [
+                          _c("em", [_vm._v("*")]),
                           _c(
                             "label",
                             {
@@ -42141,6 +42159,14 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v(" Foto")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "texto-o" }, [
+      _c("h6", [_vm._v(" Los campos con (*) son necesarios")])
     ])
   }
 ]
@@ -44037,9 +44063,11 @@ var render = function() {
                       _vm._v("Nombre")
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "descripcion" } }, [
-                      _vm._v("Descripcion")
-                    ])
+                    _c(
+                      "option",
+                      { attrs: { value: "descripcion", selected: "" } },
+                      [_vm._v("Descripcion")]
+                    )
                   ]
                 ),
                 _vm._v(" "),
@@ -56399,28 +56427,17 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-Vue.component('region', __webpack_require__(/*! ./components/Region.vue */ "./resources/js/components/Region.vue")["default"]);
-Vue.component('nivel', __webpack_require__(/*! ./components/Nivel.vue */ "./resources/js/components/Nivel.vue")["default"]);
-Vue.component('nomenclatura', __webpack_require__(/*! ./components/Nomenclatura.vue */ "./resources/js/components/Nomenclatura.vue")["default"]);
-Vue.component('delegacion', __webpack_require__(/*! ./components/Delegacion.vue */ "./resources/js/components/Delegacion.vue")["default"]);
-Vue.component('delegado', __webpack_require__(/*! ./components/Delegado.vue */ "./resources/js/components/Delegado.vue")["default"]);
-Vue.component('rol', __webpack_require__(/*! ./components/Rol.vue */ "./resources/js/components/Rol.vue")["default"]);
-/**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('region', __webpack_require__(/*! ./components/Region.vue */ "./resources/js/components/Region.vue"));
+Vue.component('nivel', __webpack_require__(/*! ./components/Nivel.vue */ "./resources/js/components/Nivel.vue"));
+Vue.component('nomenclatura', __webpack_require__(/*! ./components/Nomenclatura.vue */ "./resources/js/components/Nomenclatura.vue"));
+Vue.component('delegacion', __webpack_require__(/*! ./components/Delegacion.vue */ "./resources/js/components/Delegacion.vue"));
+Vue.component('delegado', __webpack_require__(/*! ./components/Delegado.vue */ "./resources/js/components/Delegado.vue"));
+Vue.component('rol', __webpack_require__(/*! ./components/Rol.vue */ "./resources/js/components/Rol.vue"));
 var app = new Vue({
   el: '#app',
   data: {

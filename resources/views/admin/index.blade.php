@@ -19,4 +19,7 @@
     <template v-if="menu==5">
         <delegado></delegado>
     </template>       
+    <template v-if="menu==6">
+        <rol></rol>
+    </template>       
 @endsection

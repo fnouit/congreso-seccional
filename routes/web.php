@@ -115,6 +115,8 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     Route::get('/delegados/arrayEcivil', 'DelegadoController@arrayEcivil');
     Route::get('/delegados/arrayDelegaciones/{id}', 'DelegadoController@arrayDelegaciones');
     Route::get('/delegados/arrayRegiones', 'DelegadoController@arrayRegiones');
+
+    Route::get('/roles', 'RolController@index');
     
 });
 
