@@ -44,10 +44,10 @@
                 </li>
                 <li>|</li>
                 <li class="nav-item px-3">
-
-                    <a class="nav-link" href="{{ route('logout') }}"
+                    <a href="{{ route('logout') }}"
+                        class="nav-link" 
                         onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
+                        document.getElementById('logout-form').submit();">
                         <i class="fa fa-lock"></i>
                         {{ __('Cerrar sesión') }}
                     </a>
@@ -56,11 +56,8 @@
                         @csrf
                     </form>
 
-
-
                 </li>                
             </ul>
-
 
         </header>
 

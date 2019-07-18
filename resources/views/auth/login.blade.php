@@ -9,13 +9,14 @@
         <div class="card-group mb-0">
           <div class="card p-4">
             <div class="card-body">
-                <form method="POST" action="{{ route('login') }}">
+
+                <form method="POST" action="{{ route('login') }}" class="was-validated">
                     @csrf
                     <h1>Acceder</h1>
                     <p class="text-muted">Control de acceso al sistema</p>
                     <div class="input-group mb-3">
                         <span class="input-group-addon"><i class="icon-user"></i></span>
-                        <input id="email" type="email" name="email"  placeholder="Usuario" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+                        <input id="email" type="email" name="email"  placeholder="Usuario" value="{{old('email')}}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -48,8 +49,6 @@
                 <strong>Si</strong>stema a <strong>De</strong>legados <strong>C</strong>ongreso 2020
                 <hr>
                 <p>Sistema de registros a delegados para el Congreso de la Sección 56 del SNTE.</p>
-
-                <a href="https://www.udemy.com/user/juan-carlos-arcila-diaz/" target="_blank" class="btn btn-primary active mt-3">Ver el curso!</a>
               </div>
             </div>
           </div>

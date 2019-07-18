@@ -15,4 +15,9 @@ class Rol extends Model
     protected $table = 'roles';
 
     public $timestamps = false;
+
+    public function users()
+    {
+        return $this->hasMany('App\User');
+    }      
 }

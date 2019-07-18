@@ -40,7 +40,7 @@ class DelegadoController extends Controller
             return view ('admin.delegados.index',compact('delegados','delegaciones','regiones','nomenclaturas'));
 
             SELECT  regions.nombre as nomRegion, regions.sede, delegacions.slug, delegados.nombre, delegados.ap_paterno, delegados.ap_materno, generos.genero, delegados.rfc, 
-                    estudios.maximo_estudio, situacions.estado_civil, delegados.email, delegados.telefono, delegados.facebook, delegados.twitter
+                    estudios.maximo_estudio, situacions.estado_civil, delegados.email, delegados.telefono, delegados.facebook, delegados.twitter, delegados.user_id, users.name as usuario, roles.nombre as rol, roles.id as idRol
                     FROM delegados
                     
                     INNER JOIN delegacions ON delegacions.id = delegados.delegacion_id
@@ -48,11 +48,16 @@ class DelegadoController extends Controller
                     INNER JOIN estudios ON estudios.id = delegados.estudio_id
                     INNER JOIN situacions ON situacions.id = delegados.situacion_id
                     INNER JOIN regions ON regions.id = delegacions.region_id
+                    INNER JOIN users on users.id = delegados.user_id
+                    INNER JOIN roles on roles.id = users.rol_id                    
                     WHERE delegacions.id = 153            
         */
 
         // if (!$request->ajax()) return redirect('/admin');
         
+
+         
+
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
@@ -63,8 +68,10 @@ class DelegadoController extends Controller
                                         ->join('estudios' , 'estudios.id', '=', 'delegados.estudio_id')
                                         ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
                                         ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
+                                        ->join('users', 'users.id', '=', 'delegados.user_id')
+                                        ->join('roles', 'roles.id', '=', 'users.rol_id')
                                         ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
-                                        'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen')        
+                                        'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen', 'delegados.user_id', 'users.name as usuario', 'roles.nombre as rol', 'roles.id as idRol' )        
                                         ->orderBy('delegados.id','desc')
                                         ->paginate(30);
         } else {
@@ -73,8 +80,10 @@ class DelegadoController extends Controller
                                         ->join('estudios' , 'estudios.id', '=', 'delegados.estudio_id')
                                         ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
                                         ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
+                                        ->join('users', 'users.id', '=', 'delegados.user_id')
+                                        ->join('roles', 'roles.id', '=', 'users.rol_id')
                                         ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
-                                        'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter')        
+                                        'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen', 'delegados.user_id', 'users.name as usuario', 'roles.nombre as rol', 'roles.id as idRol')        
                                         ->where('delegados.'.$criterio, 'LIKE', '%'.$buscar.'%') 
                                         ->orderBy('delegados.id','desc')
                                         ->paginate(30);
@@ -212,7 +221,8 @@ class DelegadoController extends Controller
         $delegado->slug = $request->nombre.'_'.$request->ap_paterno.'_'.$request->ap_materno;    
 
         
-        $delegado->user_id = 1;
+        // $delegado->user_id = 1;
+        $delegado->user_id = Auth::user()->id;
 
         $delegado->save();
     }

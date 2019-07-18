@@ -41,4 +41,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Delegado');
     }    
+
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class);
+    }
+    
 }

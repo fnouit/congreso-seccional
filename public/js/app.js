@@ -2369,6 +2369,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2409,7 +2422,8 @@ __webpack_require__.r(__webpack_exports__);
       criterio: 'nombre',
       buscar: '',
       desabilitar: 0,
-      img_delegado: ''
+      img_delegado: '',
+      rol: 0
     };
   },
   computed: {
@@ -2451,7 +2465,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayDelegado = respuesta.delegados.data;
-        me.pagination = respuesta.pagination;
+        me.pagination = respuesta.pagination; // this.img_delegado = data['imagen'];
+
+        console.log(me.rol = data['idRol']);
       })["catch"](function (error) {
         // handle error
         console.log(error);
@@ -41069,39 +41085,87 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.arrayDelegado, function(delegado) {
                   return _c("tr", { key: delegado.id }, [
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-warning btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.abrirModal(
-                                "delegado",
-                                "actualizar",
-                                delegado
-                              )
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "icon-pencil" })]
-                      ),
-                      _vm._v("  \n                                "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.eliminarDelegado(delegado.id)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "icon-trash" })]
-                      )
-                    ]),
+                    _vm.rol == 1
+                      ? _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-warning btn-sm",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.abrirModal(
+                                    "delegado",
+                                    "actualizar",
+                                    delegado
+                                  )
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "icon-pencil" })]
+                          ),
+                          _vm._v("  \n                                "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger btn-sm",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.eliminarDelegado(delegado.id)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "icon-trash" })]
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.rol == 2
+                      ? _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-warning btn-sm",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.abrirModal(
+                                    "delegado",
+                                    "actualizar",
+                                    delegado
+                                  )
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "icon-pencil" })]
+                          ),
+                          _vm._v("  \n\n                            ")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.rol == 3
+                      ? _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-warning btn-sm",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.abrirModal(
+                                    "delegado",
+                                    "actualizar",
+                                    delegado
+                                  )
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "icon-pencil" })]
+                          ),
+                          _vm._v("  \n\n                            ")
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("td", {
                       domProps: { textContent: _vm._s(delegado.nombre) }

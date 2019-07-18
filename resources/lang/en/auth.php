@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'No reconocemos esta dirección de correo electrónico.',
+    'failed' => 'No reconocemos esta dirección de correo electrónico o la contraseña es incorrecta.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

@@ -51,7 +51,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="delegado in arrayDelegado" :key="delegado.id" >
-                                <td>
+                                <td v-if="rol == 1" >
                                     <button type="button" @click="abrirModal('delegado', 'actualizar', delegado)" class="btn btn-warning btn-sm" >
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
@@ -59,6 +59,19 @@
                                         <i class="icon-trash"></i>
                                     </button>                                            
                                 </td>
+                                <td v-if="rol == 2" >
+                                    <button type="button" @click="abrirModal('delegado', 'actualizar', delegado)" class="btn btn-warning btn-sm" >
+                                        <i class="icon-pencil"></i>
+                                    </button> &nbsp;
+
+                                </td>
+                                <td v-if="rol == 3" >
+                                    <button type="button" @click="abrirModal('delegado', 'actualizar', delegado)" class="btn btn-warning btn-sm" >
+                                        <i class="icon-pencil"></i>
+                                    </button> &nbsp;
+
+                                </td>
+
 
                                 <td v-text="delegado.nombre"></td>
                                 <td v-text="delegado.ap_paterno"></td>
@@ -273,7 +286,8 @@
                 criterio : 'nombre',
                 buscar : '',
                 desabilitar: 0,
-                img_delegado : ''
+                img_delegado : '',
+                rol : 0
             }
         },
         computed:{
@@ -308,7 +322,7 @@
                 axios.get(url).then(function (response) {
                         var respuesta = response.data;
                         me.arrayDelegado = respuesta.delegados.data;
-                        me.pagination = respuesta.pagination;
+                        me.pagination = respuesta.pagination;                        
                     })
                     .catch(function (error) {
                         // handle error
