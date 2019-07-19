@@ -20,6 +20,9 @@
         <delegado></delegado>
     </template>       
     <template v-if="menu==6">
+        <user></user>
+    </template>       
+    <template v-if="menu==7">
         <rol></rol>
     </template>       
 @endsection

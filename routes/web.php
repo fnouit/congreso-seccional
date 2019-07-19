@@ -63,6 +63,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('admin/delegados/arrayRegiones', 'DelegadoController@arrayRegiones');
         Route::get('admin/exportar/excel/', 'DelegadoController@export')->name('exportar.delegados');
     
+        /**
+         * Users
+         */
+        Route::get('admin/users', 'UserController@index')->name('users');
+        Route::post('admin/user/registrar', 'UserController@store');
+        Route::put('admin/user/actualizar', 'UserController@update');
+        Route::delete('admin/user/eliminar/{id}', 'UserController@destroy');
+
+        /**
+         * Roles
+         */
         Route::get('admin/roles', 'RolController@index');    
     });
 

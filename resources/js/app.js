@@ -27,6 +27,7 @@ Vue.component('nomenclatura', require('./components/Nomenclatura.vue').default);
 Vue.component('delegacion', require('./components/Delegacion.vue').default);
 Vue.component('delegado', require('./components/Delegado.vue').default);
 Vue.component('rol', require('./components/Rol.vue').default);
+Vue.component('user', require('./components/User.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
