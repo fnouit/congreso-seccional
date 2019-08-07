@@ -56,50 +56,107 @@ class DelegadoController extends Controller
         // if (!$request->ajax()) return redirect('/admin');
         
 
-         
 
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
+        // $delegados = Delegado::where('user_id',Auth::user()->id)->get(); 
 
-
-        if ($buscar == '') {
-            $delegados = Delegado::join('delegacions' , 'delegacions.id', '=', 'delegados.delegacion_id')
-                                        ->join('generos' , 'generos.id', '=', 'delegados.genero_id')
-                                        ->join('estudios' , 'estudios.id', '=', 'delegados.estudio_id')
-                                        ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
-                                        ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
-                                        ->join('users', 'users.id', '=', 'delegados.user_id')
-                                        ->join('roles', 'roles.id', '=', 'users.rol_id')
-                                        ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
-                                        'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen', 'delegados.user_id', 'users.name as usuario', 'roles.nombre as rol', 'roles.id as idRol' )        
-                                        ->orderBy('delegados.id','desc')
-                                        ->paginate(30);
-        } else {
-            $delegados = Delegado::join('delegacions' , 'delegacions.id', '=', 'delegados.delegacion_id')
-                                        ->join('generos' , 'generos.id', '=', 'delegados.genero_id')
-                                        ->join('estudios' , 'estudios.id', '=', 'delegados.estudio_id')
-                                        ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
-                                        ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
-                                        ->join('users', 'users.id', '=', 'delegados.user_id')
-                                        ->join('roles', 'roles.id', '=', 'users.rol_id')
-                                        ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
-                                        'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen', 'delegados.user_id', 'users.name as usuario', 'roles.nombre as rol', 'roles.id as idRol')        
-                                        ->where('delegados.'.$criterio, 'LIKE', '%'.$buscar.'%') 
-                                        ->orderBy('delegados.id','desc')
-                                        ->paginate(30);
-        }
+        $idUser = Auth::user()->id;
 
 
-        return [
-            'pagination' => [
-                'total' => $delegados->total(),
-                'current_page' => $delegados->currentPage(),
-                'per_page' => $delegados->perPage(),	
-                'last_page' => $delegados->lastPage(),
-                'from' => $delegados->firstItem(),	
-                'to' => $delegados->lastItem()
-            ], 'delegados' => $delegados
-        ]; 
+      
+
+        if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2) {
+            // return "Entre en modo Administrador donde vere todos los delegados";
+
+            $buscar = $request->buscar;
+            $criterio = $request->criterio;
+
+
+
+            if ($buscar == '') {
+                $delegados = Delegado::join('delegacions' , 'delegacions.id', '=', 'delegados.delegacion_id')
+                                            ->join('generos' , 'generos.id', '=', 'delegados.genero_id')
+                                            ->join('estudios' , 'estudios.id', '=', 'delegados.estudio_id')
+                                            ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
+                                            ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
+                                            ->join('users', 'users.id', '=', 'delegados.user_id')
+                                            ->join('roles', 'roles.id', '=', 'users.rol_id')
+                                            ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
+                                            'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen', 'delegados.user_id', 'users.name as usuario', 'users.password','roles.nombre as rol', 'roles.id as idRol' )        
+                                            
+                                            ->orderBy('delegados.id','desc')
+                                            ->paginate(30);
+            } else {
+                $delegados = Delegado::join('delegacions' , 'delegacions.id', '=', 'delegados.delegacion_id')
+                                            ->join('generos' , 'generos.id', '=', 'delegados.genero_id')
+                                            ->join('estudios' , 'estudios.id', '=', 'delegados.estudio_id')
+                                            ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
+                                            ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
+                                            ->join('users', 'users.id', '=', 'delegados.user_id')
+                                            ->join('roles', 'roles.id', '=', 'users.rol_id')
+                                            ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
+                                            'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen', 'delegados.user_id', 'users.name as usuario', 'roles.nombre as rol', 'roles.id as idRol')        
+                                            ->where('delegados.'.$criterio, 'LIKE', '%'.$buscar.'%') 
+                                            ->orderBy('delegados.id','desc')
+                                            ->paginate(30);
+            }
+
+            return [
+                'pagination' => [
+                    'total' => $delegados->total(),
+                    'current_page' => $delegados->currentPage(),
+                    'per_page' => $delegados->perPage(),	
+                    'last_page' => $delegados->lastPage(),
+                    'from' => $delegados->firstItem(),	
+                    'to' => $delegados->lastItem()
+                ], 'delegados' => $delegados
+            ];             
+
+
+
+        } elseif (Auth::user()->rol_id == 3 )  {
+            $buscar = $request->buscar;
+            $criterio = $request->criterio;
+
+            if ($buscar == '') {
+                $delegados = Delegado::join('delegacions' , 'delegacions.id', '=', 'delegados.delegacion_id')
+                                            ->join('generos' , 'generos.id', '=', 'delegados.genero_id')
+                                            ->join('estudios' , 'estudios.id', '=', 'delegados.estudio_id')
+                                            ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
+                                            ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
+                                            ->join('users', 'users.id', '=', 'delegados.user_id')
+                                            ->join('roles', 'roles.id', '=', 'users.rol_id')
+                                            ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
+                                            'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen', 'delegados.user_id', 'users.name as usuario', 'roles.nombre as rol', 'roles.id as idRol' )        
+                                            ->where('delegados.user_id', '=' , $idUser)
+                                            ->orderBy('delegados.id','desc')
+                                            ->paginate(30);
+            } else {
+                $delegados = Delegado::join('delegacions' , 'delegacions.id', '=', 'delegados.delegacion_id')
+                                            ->join('generos' , 'generos.id', '=', 'delegados.genero_id')
+                                            ->join('estudios' , 'estudios.id', '=', 'delegados.estudio_id')
+                                            ->join('situacions' , 'situacions.id', '=', 'delegados.situacion_id')
+                                            ->join('regions' , 'regions.id', '=', 'delegacions.region_id')
+                                            ->join('users', 'users.id', '=', 'delegados.user_id')
+                                            ->join('roles', 'roles.id', '=', 'users.rol_id')
+                                            ->select('regions.id as region_id','regions.nombre as nomRegion', 'regions.sede', 'delegacions.id as delegacion_id','delegacions.slug as delegacion','delegados.id', 'delegados.nombre', 'delegados.ap_paterno', 'delegados.ap_materno','generos.id as genero_id', 'generos.genero', 'delegados.rfc', 
+                                            'estudios.id as estudios_id','estudios.maximo_estudio', 'situacions.id as estado_id','situacions.estado_civil', 'delegados.email', 'delegados.telefono', 'delegados.facebook', 'delegados.twitter', 'delegados.imagen', 'delegados.user_id', 'users.name as usuario', 'roles.nombre as rol', 'roles.id as idRol')        
+                                            ->where('delegados.user_id', '=' , $idUser)
+                                            ->where('delegados.'.$criterio, 'LIKE', '%'.$buscar.'%') 
+                                            ->orderBy('delegados.id','desc')
+                                            ->paginate(30);
+            }
+
+            return [
+                'pagination' => [
+                    'total' => $delegados->total(),
+                    'current_page' => $delegados->currentPage(),
+                    'per_page' => $delegados->perPage(),	
+                    'last_page' => $delegados->lastPage(),
+                    'from' => $delegados->firstItem(),	
+                    'to' => $delegados->lastItem()
+                ], 'delegados' => $delegados
+            ];             
+        } 
 
     }
 
@@ -379,8 +436,7 @@ class DelegadoController extends Controller
 
 
         $delegado->slug = $request->nombre.'_'.$request->ap_paterno.'_'.$request->ap_materno;    
-        $delegado->user_id = 1;
-
+        $delegado->user_id = Auth::user()->id;
         $delegado->save();        
 
     }
