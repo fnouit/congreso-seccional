@@ -141,6 +141,9 @@ class UserController extends Controller
         $user->rol_id = $request->rol;
         $user->slug = $request->slug;
 
+        if ($request->password != '')
+            $user->password = bcrypt($request->password); // Se encripta la contraseña usando la función bcrypt().
+
         $user->save();         
 
     }

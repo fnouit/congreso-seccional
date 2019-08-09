@@ -4149,7 +4149,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4280,6 +4279,7 @@ __webpack_require__.r(__webpack_exports__);
         'email': this.email,
         'slug': this.slug,
         'rol': this.rol,
+        'password': this.password,
         'id': this.user_id
       }).then(function (response) {
         me.cerrarModal();
@@ -4318,7 +4318,8 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /*
-        validarUser(){
+        la validación se hace desde el controlador 
+         validarUser(){
             this.errorUser=0;
             this.errorMsgUser = [];
              // if (!this.nombre) this.errorMsgUser.push("El campo nombre no puede estar vacio");
@@ -4340,6 +4341,7 @@ __webpack_require__.r(__webpack_exports__);
       this.desabilitar = 0;
       this.errors = [];
       this.hidePass = 0;
+      this.password = '';
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -4371,7 +4373,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.slug = data['slug'];
                   this.rol = data['rol_id'];
                   this.btnAccion = 2;
-                  this.hidePass = 1;
+                  this.hidePass = 0;
                   break;
                 }
 

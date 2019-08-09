@@ -48,7 +48,7 @@
                                     </button>                                            
                                     <button type="button" class="btn btn-danger btn-sm" @click="eliminarUser(user.id)" >
                                         <i class="icon-trash"></i>
-                                    </button>                                            
+                                    </button>     
                                 </td>
                                 <td v-text="index+1" ></td>
                                 <td v-text="user.name"></td>
@@ -155,7 +155,6 @@
             <!-- /.modal-dialog -->
         </div>
         <!--Fin del modal-->
-        
     </main>
 </template>
 
@@ -286,7 +285,8 @@
                     'name' : this.name,
                     'email' : this.email,
                     'slug' : this.slug,    
-                    'rol': this.rol,                
+                    'rol': this.rol,  
+                    'password' : this.password,              
                     'id' : this.user_id
                 }).then(function (response) {
                         me.cerrarModal();
@@ -328,6 +328,8 @@
                 })                
             },
             /*
+                la validación se hace desde el controlador 
+
                 validarUser(){
                     this.errorUser=0;
                     this.errorMsgUser = [];
@@ -352,6 +354,7 @@
                 this.desabilitar = 0;
                 this.errors = [];
                 this.hidePass = 0;
+                this.password = '';
             },
             abrirModal(modelo, accion, data = []) {
                 switch (modelo) {
@@ -378,8 +381,7 @@
                                 this.slug = data['slug'];
                                 this.rol = data['rol_id'];
                                 this.btnAccion = 2;
-                                this.hidePass = 1;
-                                
+                                this.hidePass = 0;
                                 break;                               
                             }
 
